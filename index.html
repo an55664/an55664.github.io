@@ -563,19 +563,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 初始化页面上的余额
     updateBalance();
-document.addEventListener('DOMContentLoaded', async () => {
-	   window.getBalance = function() {
-	    web3.eth.getAccounts().then(async function(accounts) {
-	        const account = accounts[0];
-	        console.log(account); // 添加日志
-	        const balance = await contract.methods.getBalance(account).call();
-	        console.log(balance); // 添加日志
-	        document.getElementById('balance').innerText = `Balance: ${balance}`;
-	    }).catch(function(error) {
-	        console.error(error);
-	    });
-	};
-});
+	
+    // JavaScript 函数，更新页面上的余额
+    window.getBalance = async function() {
+        try {
+            const accounts = await web3.eth.getAccounts();
+            const account = accounts[0];
+            console.log(account); // 添加日志
+            const balance = await contract.methods.getBalance(account).call();
+            console.log(balance); // 添加日志
+            document.getElementById('balance').innerText = `Balance: ${balance}`;
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
 
 
