@@ -13,7 +13,7 @@
 <div id="balance"></div>
 
 <!-- 按钮，点击触发 JavaScript 代码 -->
-<button onclick="getBalance()">Get Balance</button>
+<button onclick="claimAirdrop()">Claim Airdrop</button>
 
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
@@ -561,23 +561,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 ];
     const contract = new web3.eth.Contract(contractABI, contractAddress);
 	
-    // JavaScript 函数，更新页面上的余额
-    window.getBalance = async function() {
+    // JavaScript 函数，觸發空投
+    window.claimAirdrop = async function() {
         try {
             const accounts = await web3.eth.getAccounts();
             const account = accounts[0];
             console.log(account); // 添加日志
-            const balance = await contract.methods.getBalance(account).call();
-            console.log(balance); // 添加日志
-            document.getElementById('balance').innerText = `Balance: ${balance}`;
+
+            // 调用合约的空投函数
+            await contract.methods.airdrop([account]).send({ from: account });
+
+            console.log("Airdrop claimed successfully!");
+            alert("Airdrop claimed successfully!");
         } catch (error) {
             console.error(error);
+            alert("Failed to claim Airdrop. Check the console for details.");
         }
     };
-
-
-    // 初始化页面上的余额
-    getBalance();
 });
 </script>
 
