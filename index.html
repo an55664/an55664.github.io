@@ -560,9 +560,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 	}
 ];
     const contract = new web3.eth.Contract(contractABI, contractAddress);
-
-    // 初始化页面上的余额
-    updateBalance();
 	
     // JavaScript 函数，更新页面上的余额
     window.getBalance = async function() {
@@ -579,11 +576,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
 
-
-    // JavaScript 函数，更新页面上的余额
-    function updateBalance() {
-        getBalance();
-    }
+    // 初始化页面上的余额
+    getBalance();
 });
 </script>
 
