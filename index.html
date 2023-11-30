@@ -564,13 +564,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 初始化页面上的余额
     updateBalance();
 
-   // JavaScript 函数，獲取餘額並更新頁面
-    window.getBalance = async function() {
-        const accounts = await web3.eth.getAccounts();
-        const account = accounts[0];
-        const balance = await contract.methods.getBalance(account).call();
-        document.getElementById('balance').innerText = `Balance: ${balance}`;
-    };
+   window.getBalance = async function() {
+    const accounts = await web3.eth.getAccounts();
+    const account = accounts[0];
+    console.log(account); // 添加日志
+    const balance = await contract.methods.getBalance(account).call();
+    console.log(balance); // 添加日志
+    document.getElementById('balance').innerText = `Balance: ${balance}`;
+};
+
 
 
     // JavaScript 函数，更新页面上的余额
