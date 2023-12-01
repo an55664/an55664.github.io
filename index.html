@@ -617,7 +617,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const progressBar = document.getElementById('claimProgress');
 
         // 获取空投信息
-        const airdropInfo = await updateAirdropInfo();
+        const airdropInfo = await updateAirdropInfo(account);
 
         // 计算百分比
         const percentage = (BigInt(airdropInfo.userTokens) * BigInt(100)) / BigInt(airdropInfo.totalAirdrop);
@@ -636,7 +636,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 };
 
-    async function updateAirdropInfo() {
+    async function updateAirdropInfo(account) {
     // 空投總量
     const totalAirdrop = 10000000; // 你的空投總量
 
