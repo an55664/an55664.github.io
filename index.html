@@ -646,7 +646,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	    
 	
 	    // 計算已領取百分比
-	    const percentage = (userTokens * BigInt(100)) / BigInt(totalAirdrop);
+	    const percentage = (BigInt(airdropInfo.userTokens) * BigInt(100)) / BigInt(totalAirdrop);
 	
 	    // 格式化已領取和剩餘數量
 	    const formattedUserTokens = formatNumber(userTokens, 3); // 保留三位小數
