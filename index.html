@@ -61,7 +61,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
    if (window.ethereum) {
 	    try {
-	        await window.ethereum.enable();
 	        window.web3 = new Web3(window.ethereum);
 	        const accounts = await window.web3.eth.getAccounts();
 	        window.web3.eth.defaultAccount = accounts[0];
@@ -685,11 +684,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             console.log("Airdrop claimed successfully!");
 
-            // 显示进度条
-            const progressBar = document.getElementById('claimProgress');
-            
-            // 進度條增加
-            progressBar.value += 1;
+	    // 更新合约余额
+            await updateContractBalance();
 
             // 更新空投總數量
             await updateAirdropInfo();
