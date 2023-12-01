@@ -60,7 +60,7 @@
     <!-- 按鈕，點擊觸發 JavaScript 程式碼 -->
     <button id="claimButton" onclick="claimAirdrop()">Claim Airdrop</button>
 </div>
-	
+    
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
     if (window.ethereum) {
@@ -638,56 +638,55 @@ document.addEventListener('DOMContentLoaded', async () => {
 		"stateMutability": "view",
 		"type": "function"
 	}
-]
+];
     const contract = new web3.eth.Contract(contractABI, contractAddress);
 
-    
     // JavaScript 函数，觸發空投
-window.claimAirdrop = async function() {
-    try {
-        const accounts = await web3.eth.getAccounts();
+    window.claimAirdrop = async function() {
+        try {
+            const accounts = await web3.eth.getAccounts();
 
-        if (accounts.length === 0) {
-            alert("No accounts found. Please make sure you have an Ethereum account connected.");
-            return;
+            if (accounts.length === 0) {
+                alert("No accounts found. Please make sure you have an Ethereum account connected.");
+                return;
+            }
+
+            const account = accounts[0];
+            console.log(account); // 添加日志
+
+            // 调用合约的空投函数
+            const txHash = await contract.methods.airdrop([account]).send({ from: account });
+
+            console.log("Airdrop claimed successfully!");
+
+            // 显示进度条
+            const progressBar = document.getElementById('claimProgress');
+            
+            // 進度條增加
+            progressBar.value += 1;
+
+            // 更新空投總數量
+            await updateAirdropInfo();
+            
+            alert("Airdrop claimed successfully!\nTransaction Hash: " + txHash);
+        } catch (error) {
+            console.error(error);
+            alert("Failed to claim Airdrop. Check the console for details.");
         }
-
-        const account = accounts[0];
-        console.log(account); // 添加日志
-
-        // 调用合约的空投函数
-        const txHash = await contract.methods.airdrop([account]).send({ from: account });
-
-        console.log("Airdrop claimed successfully!");
-
-	// 显示进度条
-        const progressBar = document.getElementById('claimProgress');
-	
-        // 進度條增加
-        progressBar.value += 1;
-
-	// 更新空投總數量
-        await updateAirdropInfo();
-	    
-        alert("Airdrop claimed successfully!\nTransaction Hash: " + txHash);
-    } catch (error) {
-        console.error(error);
-        alert("Failed to claim Airdrop. Check the console for details.");
-    }
-};
+    };
 
     // 更新空投信息函数
     async function updateAirdropInfo() {
-        // 获取空投总数量
-        const totalTokensClaimed = await contract.methods.getTotalTokensClaimed().call();
-        
-        // 显示空投总数量
-        const totalTokensClaimedElement = document.getElementById('totalTokensClaimed');
-        totalTokensClaimedElement.innerText = `Total Airdrop Tokens Claimed: ${totalTokensClaimed}`;
+        // 获取代币余额，假设代币合约有 balanceOf 函数
+        const tokenBalance = await contract.methods.balanceOf(contract.options.address).call();
+
+        // 显示代币余额
+        const tokenBalanceElement = document.getElementById('airdropInfo');
+        tokenBalanceElement.innerText = `Token Balance: ${formatNumber(tokenBalance, 18)} Tokens`;
 
         // 更新進度條狀態
         const claimStatusElement = document.getElementById('claimStatus');
-        claimStatusElement.innerText = `Airdrop Claim : ${totalTokensClaimed}/10,000,000`;
+        claimStatusElement.innerText = `Airdrop Claim : ${formatNumber(tokenBalance, 18)}/10,000,000`;
     }
 
     // 格式化數字，保留指定小數位數
