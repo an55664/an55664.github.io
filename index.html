@@ -628,15 +628,15 @@ window.claimAirdrop = async function() {
 
         console.log("Airdrop claimed successfully!");
 
-	// 更新空投總數量
-        await updateAirdropInfo();
-
 	// 显示进度条
         const progressBar = document.getElementById('claimProgress');
 	
         // 進度條增加
         progressBar.value += 1;
 
+	// 更新空投總數量
+        await updateAirdropInfo();
+	    
         alert("Airdrop claimed successfully!\nTransaction Hash: " + txHash);
     } catch (error) {
         console.error(error);
