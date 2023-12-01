@@ -644,14 +644,31 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // JavaScript 函數，获取并更新空投信息
     async function updateAirdropInfo() {
-        // 空投总量
-        const totalAirdrop = 10000000; // 你的空投总量
+	    // 空投總量
+	    const totalAirdrop = 10000000; // 你的空投總量
+	
+	    // 獲取空投總量和已領取數量
+	    const airdropInfoElement = document.getElementById('airdropInfo');
+	    const userTokens = BigInt(await contract.methods.balanceOf(account).call());
+	
+	    // 計算已領取百分比
+	    const percentage = (userTokens * BigInt(100)) / BigInt(totalAirdrop);
+	
+	    // 格式化已領取和剩餘數量
+	    const formattedUserTokens = formatNumber(userTokens, 3); // 保留三位小數
+	    const formattedTotalAirdrop = formatNumber(totalAirdrop, 3);
+	
+	    // 顯示已領取和剩餘數量
+	    airdropInfoElement.innerText = `Airdrop claimed: ${formattedUserTokens} / ${formattedTotalAirdrop}`;
+	
+	    return { totalAirdrop };
+    }
 
-        // 显示空投总量及已领取数量
-        const airdropInfoElement = document.getElementById('airdropInfo');
-        airdropInfoElement.innerText = `Airdrop claimed: 0 / ${totalAirdrop}`;
-
-        return { totalAirdrop };
+    // 格式化數字，保留指定小數位數
+    function formatNumber(number, decimalPlaces) {
+        const divisor = BigInt(10) ** BigInt(decimalPlaces);
+        const formattedNumber = (number / divisor).toLocaleString(undefined, { minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces });
+        return formattedNumber;
     }
 });
 </script>
