@@ -49,7 +49,7 @@
 <div id="container">
     <!-- 空投總量及已領取數量 -->
     <div id="airdropInfo">
-	<p>Total Airdrop Token Balance: <span id="contractBalance"></span> AP1</p>
+	<p>Total Airdrop Balance: <span id="contractBalance"></span> AP1</p>
     </div>
 
     <!-- 按鈕，點擊觸發 JavaScript 程式碼 -->
@@ -697,7 +697,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // 显示代币余额
         const tokenBalanceElement = document.getElementById('airdropInfo');
-        tokenBalanceElement.innerText = `Total Airdrop Token Balance: ${formatNumber(tokenBalance, 18)} AP1`;
+        tokenBalanceElement.innerText = `Total Airdrop Balance: ${formatNumber(tokenBalance, 18)} AP1`;
 
     }
 
