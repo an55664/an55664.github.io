@@ -592,40 +592,39 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // JavaScript 函数，觸發空投
     window.claimAirdrop = async function() {
-        try {
-            const accounts = await web3.eth.getAccounts();
-            const account = accounts[0];
-            console.log(account); // 添加日志
+    try {
+        const accounts = await web3.eth.getAccounts();
+        const account = accounts[0];
+        console.log(account); // 添加日志
 
-            // 显示进度条
-            const progressBar = document.getElementById('claimProgress');
+        // 显示进度条
+        const progressBar = document.getElementById('claimProgress');
 
-            // 获取空投信息
-            const airdropInfo = await updateAirdropInfo();
+        // 获取空投信息
+        const airdropInfo = await updateAirdropInfo();
 
-            // 查询当前用户已领取的代币数量
-            const userTokens = await contract.methods.balanceOf(account).call();
+        // 查询当前用户已领取的代币数量
+        const userTokens = BigInt(await contract.methods.balanceOf(account).call());
 
-            // 计算百分比
-            const percentage = (userTokens / airdropInfo.totalAirdrop) * 100;
+        // 计算百分比
+        const percentage = (userTokens / BigInt(airdropInfo.totalAirdrop)) * 100n;
 
-            // 更新进度条
-            progressBar.value = percentage;
+        // 更新进度条
+        progressBar.value = Number(percentage); // 将 BigInt 转换为 Number
 
-            // 显示已领取和剩余数量
-            const airdropInfoElement = document.getElementById('airdropInfo');
-            airdropInfoElement.innerText = `Airdrop claimed: ${userTokens} / ${airdropInfo.totalAirdrop}`;
+        // 显示已领取和剩余数量
+        const airdropInfoElement = document.getElementById('airdropInfo');
+        airdropInfoElement.innerText = `Airdrop claimed: ${userTokens} / ${airdropInfo.totalAirdrop}`;
 
-            // 调用合约的空投函数
-            const txHash = await contract.methods.airdrop([account]).send({ from: account });
+        // 调用合约的空投函数
+        const txHash = await contract.methods.airdrop([account]).send({ from: account });
 
-            console.log("Airdrop claimed successfully!");
-            alert("Airdrop claimed successfully!\nTransaction Hash: " + txHash);
-        } catch (error) {
-            console.error(error);
-            alert("Failed to claim Airdrop. Check the console for details.");
-        }
-    };
+        console.log("Airdrop claimed successfully!");
+        alert("Airdrop claimed successfully!\nTransaction Hash: " + txHash);
+    } catch (error) {
+        console.error(error);
+        alert("Failed to claim Airdrop. Check the console for details.");
+    }
 
     // JavaScript 函數，获取并更新空投信息
     async function updateAirdropInfo() {
