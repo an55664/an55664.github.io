@@ -59,25 +59,6 @@
 	#connectWalletButton button:hover {
 	    background-color: #45a049;
 	}
-
-	#disconnectButton {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 4px;
-            display: none; /* 初始隱藏 */
-        }
-	
-	#disconnectButton {
-            background-color: #f44336; /* 紅色 */
-            color: white;
-        }
-
-        #disconnectButton:hover {
-            background-color: #d32f2f;
-        }
-	
 	    
         #claimButton:hover {
             background-color: #45a049;
@@ -131,26 +112,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 		        alert("连接钱包时出错。请查看控制台获取详细信息。");
 		    }
 	    };
-
-
-	   // JavaScript 函数，斷開錢包
-	    window.disconnectWallet = async function() {
-	        try {
-	            // 斷開錢包的程式碼
-	            // ...
-	
-	            // 顯示連接錢包按鈕，隱藏斷開錢包按鈕
-	            document.getElementById('connectButton').style.display = 'inline-block';
-	            document.getElementById('disconnectButton').style.display = 'none';
-	        } catch (error) {
-	            console.error(error);
-	            alert("Failed to disconnect Wallet. Check the console for details.");
-	        }
-	    };
-
-	    // 在页面加载时更新合约余额和钱包信息
-	    updateContractBalance();
-	    updateWalletInfo();
 
 	   
    } else {
