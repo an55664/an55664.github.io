@@ -78,6 +78,9 @@
 	<p>Total Airdrop Balance: <span id="contractBalance"></span> AP1</p>
     </div>
 
+    <!-- 断开连接钱包按钮 -->
+    <button id="disconnectButton" onclick="disconnectWallet()" style="display:none;">Disconnect Wallet</button>
+	
     <div id="connectWalletButton">
     	<button onclick="connectWallet()">Connect Wallet</button>
     </div>
@@ -106,6 +109,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 		        } else {
 		            alert("请安装 MetaMask 或其他以太坊浏览器插件");
 		        }
+
+			document.getElementById('connectButton').style.display = 'none';
+            		document.getElementById('disconnectButton').style.display = 'inline-block';    
 		    } catch (error) {
 		        console.error(error);
 		        alert("连接钱包时出错。请查看控制台获取详细信息。");
@@ -118,7 +124,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 	            await window.ethereum.request({ method: 'wallet_requestPermissions' });
 	            // 清除默认帐户
 	            window.web3.eth.defaultAccount = null;
-	
+
+                    document.getElementById('connectButton').style.display = 'inline-block';
+            	    document.getElementById('disconnectButton').style.display = 'none';
+
+		     	
 	            // 更新页面上的钱包地址
 	            updateWalletInfo();
 	        } catch (error) {
