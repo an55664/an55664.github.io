@@ -649,7 +649,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	
 	    // 獲取空投總量和已領取數量
 	    const airdropInfoElement = document.getElementById('airdropInfo');
-	    const userTokens = await contract.methods.balanceOf(account).call();
+	    
 	
 	    // 計算已領取百分比
 	    const percentage = (userTokens * BigInt(100)) / BigInt(totalAirdrop);
