@@ -18,9 +18,10 @@
 
         #container {
             text-align: center;
+            position: relative;
         }
 
-	#walletButton {
+        #walletButton {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -31,13 +32,13 @@
             color: white;
             border: none;
             border-radius: 4px;
-            display: none; /* 初始時隱藏 */
+            display: block; /* 初始時顯示 */
         }
 
         #walletAddress {
             margin-bottom: 20px;
         }
-	    
+
         #airdropInfo {
             margin-bottom: 20px;
         }
@@ -65,19 +66,15 @@
 <body>
 
 <div id="container">
-    <!-- 空投總量及已領取數量 -->
-    <div id="airdropInfo">
-	<p>Total Airdrop Balance: <span id="contractBalance"></span> AP1</p>
-    </div>
-
     <button id="walletButton" onclick="connectWallet()">Connect Wallet</button>
     <div id="walletAddress"></div>
+    <!-- 空投總量及已領取數量 -->
+    <div id="airdropInfo">
+        <p>Total Airdrop Balance: <span id="contractBalance"></span> AP1</p>
+    </div>
 
-	
     <!-- 按鈕，點擊觸發 JavaScript 程式碼 -->
     <button id="claimButton" onclick="claimAirdrop()">Claim Airdrop</button>
-    <button id="connectButton" onclick="connectWallet()">Connect Wallet</button>
-    <button id="disconnectButton" onclick="disconnectWallet()" style="display: none;">Disconnect Wallet</button>
 </div>
     
 <script>
