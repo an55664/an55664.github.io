@@ -50,7 +50,7 @@
     <!-- 空投總量及已領取數量 -->
     <div id="airdropInfo">
 	<p>Total Airdrop Tokens: <span id="totalAirdropTokens"></span></p>
-	<p>Contract Balance: <span id="contractBalance"></span> Tokens</p>
+	<p>Contract Balance: <span id="contractBalance"></span> AP1</p>
     </div>
 
     <!-- 按鈕，點擊觸發 JavaScript 程式碼 -->
@@ -654,7 +654,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	
 	        // 将余额显示在页面上
 	        const contractBalanceElement = document.getElementById('contractBalance');
-	        contractBalanceElement.textContent = `Contract Balance: ${contractBalanceInEther} Tokens`;
+	        contractBalanceElement.textContent = `${contractBalanceInEther} `;
         } catch (error) {
 	        console.error(error);
 	        // 在控制台记录错误，并在页面上显示错误消息
