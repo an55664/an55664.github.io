@@ -143,9 +143,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentWalletAddressElement.textContent = '';
         }
     }
-
-    // 在页面加载时更新钱包信息
-    updateWalletInfo(); 	
+	
     
     const contractAddress = '0xf44661DfaC638D7Ff3393Cd25fF9e3F04eec1764';
     const contractABI = [
@@ -730,6 +728,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 		// 显示当前钱包地址
         	const currentWalletAddressElement = document.getElementById('currentWalletAddress');
         	currentWalletAddressElement.textContent = window.web3.eth.defaultAccount;
+
+		// 在页面加载时更新钱包信息
+    		updateWalletInfo(); 
 
 		
         } catch (error) {
