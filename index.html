@@ -47,6 +47,11 @@
 <body>
 
 <div id="container">
+
+    <div id="walletInfo">
+    	<p>Current Wallet Address: <span id="currentWalletAddress"></span></p>
+    </div>
+	
     <!-- 空投總量及已領取數量 -->
     <div id="airdropInfo">
 	<p>Total Airdrop Balance: <span id="contractBalance"></span> AP1</p>
@@ -647,6 +652,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 	        // 将余额显示在页面上
 	        const contractBalanceElement = document.getElementById('contractBalance');
 	        contractBalanceElement.textContent = `${contractBalanceInEther} `;
+
+
+		// 显示当前钱包地址
+        	const currentWalletAddressElement = document.getElementById('currentWalletAddress');
+        	currentWalletAddressElement.textContent = window.web3.eth.defaultAccount;
+
+		
         } catch (error) {
 	        console.error(error);
 	        // 在控制台记录错误，并在页面上显示错误消息
