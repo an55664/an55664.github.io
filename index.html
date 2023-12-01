@@ -64,11 +64,14 @@
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
     if (window.ethereum) {
-        window.web3 = new Web3(window.ethereum);
-        // 等待帳戶連接完成
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        // 將帳戶設置為第一個帳戶
-        window.web3.eth.defaultAccount = accounts[0];
+        try {
+	        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+	        window.web3 = new Web3(window.ethereum);
+	        window.web3.eth.defaultAccount = accounts[0];
+	} catch (error) {
+	        console.error(error);
+	        alert("连接账户时出错。请确保您已连接到您的以太坊账户。");
+	}
     } else {
         alert("請安裝 MetaMask 或其他以太坊瀏覽器插件");
     }
