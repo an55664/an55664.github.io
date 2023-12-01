@@ -50,6 +50,9 @@
     <!-- 空投總量及已領取數量 -->
     <div id="airdropInfo"></div>
 
+    <!-- 顯示空投總數量 -->
+    <div id="totalTokensClaimed"></div>
+
     <!-- 進度條 -->
     <progress id="claimProgress" value="0" max="100"></progress>
 
@@ -628,6 +631,9 @@ window.claimAirdrop = async function() {
 
         console.log("Airdrop claimed successfully!");
 
+	// 更新空投總數量
+        await updateAirdropInfo();
+	
         // 進度條增加
         progressBar.value += 1;
 
@@ -638,6 +644,15 @@ window.claimAirdrop = async function() {
     }
 };
 
+    // 更新空投信息函数
+    async function updateAirdropInfo() {
+	    // 获取空投总数量
+	    const totalTokensClaimed = await contract.methods.getTotalTokensClaimed().call();
+	
+	    // 显示空投总数量
+	    const totalTokensClaimedElement = document.getElementById('totalTokensClaimed');
+	    totalTokensClaimedElement.innerText = `Total Airdrop Tokens Claimed: ${totalTokensClaimed}`;
+    }
 
     // 格式化數字，保留指定小數位數
     function formatNumber(number, decimalPlaces) {
