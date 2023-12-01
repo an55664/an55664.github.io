@@ -700,9 +700,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tokenBalanceElement = document.getElementById('airdropInfo');
         tokenBalanceElement.innerText = `Token Balance: ${formatNumber(tokenBalance, 18)} Tokens`;
 
-        // 更新進度條狀態
-        const claimStatusElement = document.getElementById('claimStatus');
-        claimStatusElement.innerText = `Airdrop Claim : ${formatNumber(tokenBalance, 18)}/10,000,000`;
     }
 
     // 格式化數字，保留指定小數位數
