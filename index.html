@@ -65,64 +65,7 @@
     
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
-   // 新增 Connect Wallet 函数
-window.connectWallet = async function() {
-    try {
-        if (window.ethereum) {
-            window.web3 = new Web3(window.ethereum);
-            // 等待帳戶連接完成
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            // 將帳戶設置為第一個帳戶
-            window.web3.eth.defaultAccount = accounts[0];
-            
-            // 顯示錢包地址
-            const walletAddressElement = document.getElementById('walletAddress');
-            walletAddressElement.textContent = `Connected Wallet Address: ${accounts[0]}`;
-
-            // 更新按鈕狀態
-            document.getElementById('connectButton').style.display = 'none';
-            document.getElementById('disconnectButton').style.display = 'block';
-            document.getElementById('claimButton').disabled = false;
-
-            // 更新合約余額
-            await updateContractBalance();
-        } else {
-            alert("請安裝 MetaMask 或其他以太坊瀏覽器插件");
-        }
-    } catch (error) {
-        console.error(error);
-        alert("Failed to connect Wallet. Check the console for details.");
-    }
-};
-
-// 新增 Disconnect Wallet 函数
-window.disconnectWallet = async function() {
-    try {
-        if (window.ethereum) {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            
-            // 斷開連接
-            await window.ethereum.request({ method: 'wallet_requestPermissions' });
-            
-            // 隱藏錢包地址
-            const walletAddressElement = document.getElementById('walletAddress');
-            walletAddressElement.textContent = '';
-
-            // 更新按鈕狀態
-            document.getElementById('disconnectButton').style.display = 'none';
-            document.getElementById('connectButton').style.display = 'block';
-            document.getElementById('claimButton').disabled = true;
-        } else {
-            alert("請安裝 MetaMask 或其他以太坊瀏覽器插件");
-        }
-    } catch (error) {
-        console.error(error);
-        alert("Failed to disconnect Wallet. Check the console for details.");
-    }
-};
-
-
-
+   
     const contractAddress = '0xf44661DfaC638D7Ff3393Cd25fF9e3F04eec1764';
     const contractABI = [
 	{
@@ -692,6 +635,63 @@ window.disconnectWallet = async function() {
     const contract = new web3.eth.Contract(contractABI, contractAddress);
 
 
+    // 新增 Connect Wallet 函数
+window.connectWallet = async function() {
+    try {
+        if (window.ethereum) {
+            window.web3 = new Web3(window.ethereum);
+            // 等待帳戶連接完成
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            // 將帳戶設置為第一個帳戶
+            window.web3.eth.defaultAccount = accounts[0];
+            
+            // 顯示錢包地址
+            const walletAddressElement = document.getElementById('walletAddress');
+            walletAddressElement.textContent = `Connected Wallet Address: ${accounts[0]}`;
+
+            // 更新按鈕狀態
+            document.getElementById('connectButton').style.display = 'none';
+            document.getElementById('disconnectButton').style.display = 'block';
+            document.getElementById('claimButton').disabled = false;
+
+            // 更新合約余額
+            await updateContractBalance();
+        } else {
+            alert("請安裝 MetaMask 或其他以太坊瀏覽器插件");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Failed to connect Wallet. Check the console for details.");
+    }
+};
+
+// 新增 Disconnect Wallet 函数
+window.disconnectWallet = async function() {
+    try {
+        if (window.ethereum) {
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            
+            // 斷開連接
+            await window.ethereum.request({ method: 'wallet_requestPermissions' });
+            
+            // 隱藏錢包地址
+            const walletAddressElement = document.getElementById('walletAddress');
+            walletAddressElement.textContent = '';
+
+            // 更新按鈕狀態
+            document.getElementById('disconnectButton').style.display = 'none';
+            document.getElementById('connectButton').style.display = 'block';
+            document.getElementById('claimButton').disabled = true;
+        } else {
+            alert("請安裝 MetaMask 或其他以太坊瀏覽器插件");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Failed to disconnect Wallet. Check the console for details.");
+    }
+};
+	
+    
     // 获取合约地址的余额并显示在页面上
     async function updateContractBalance() {
         try {
