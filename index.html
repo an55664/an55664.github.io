@@ -32,17 +32,14 @@
 </head>
 <body>
 
-<!-- 在頁面中顯示餘額 -->
-<div id="balance"></div>
-
-<!-- 按鈕，點擊觸發 JavaScript 程式碼 -->
-<button onclick="claimAirdrop()">Claim Airdrop</button>
+<!-- 空投總量及已領取數量 -->
+<div id="airdropInfo"></div>
 
 <!-- 進度條 -->
 <progress id="claimProgress" value="0" max="100"></progress>
 
-<!-- 空投總量及已領取數量 -->
-<div id="airdropInfo"></div>
+<!-- 按鈕，點擊觸發 JavaScript 程式碼 -->
+<button onclick="claimAirdrop()">Claim Airdrop</button>
 
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
@@ -598,9 +595,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const accounts = await web3.eth.getAccounts();
             const account = accounts[0];
-            console.log(account); // 新增日誌
+            console.log(account); // 添加日志
 
-            // 顯示進度條
+            // 显示进度条
             const progressBar = document.getElementById('claimProgress');
 
             // 获取空投信息
@@ -630,10 +627,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    // JavaScript 函数，获取并更新空投信息
+    // JavaScript 函數，获取并更新空投信息
     async function updateAirdropInfo() {
         // 空投总量
-        const totalAirdrop = 100000; // 你的空投总量
+        const totalAirdrop = 10000000; // 你的空投总量
 
         // 显示空投总量及已领取数量
         const airdropInfoElement = document.getElementById('airdropInfo');
