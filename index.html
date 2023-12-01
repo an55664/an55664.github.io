@@ -95,21 +95,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     	    window.connectWallet = async function() {
 		    try {
 		        if (window.ethereum) {
-		            // 请求连接到用户的钱包
+		            // 請求連接到用户的錢包
 		            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 		
-		            // 将帐户设置为默认帐户
+		            // 將帳户設置為默認帳户
 		            window.web3.eth.defaultAccount = accounts[0];
 		
-		            // 更新页面上的钱包地址和合约余额
+		            // 更新頁面上的錢包地址和合约餘額
 		            await updateContractBalance();
+
+			    // 隱藏連接錢包按鈕
+			    hideConnectWalletButton();
+				
 		        } else {
-		            alert("请安装 MetaMask 或其他以太坊浏览器插件");
+		            alert("請安裝 MetaMask 或其他以太坊瀏覽器插件");
 		        }
    
 		    } catch (error) {
 		        console.error(error);
-		        alert("连接钱包时出错。请查看控制台获取详细信息。");
+		        alert("連接錢包时出錯。請查看控制台獲取詳细信息。");
 		    }
 	    };
 
@@ -119,19 +123,30 @@ document.addEventListener('DOMContentLoaded', async () => {
    }
 
 
-     // 更新钱包信息函数
+     // 更新錢包信息函數
     function updateWalletInfo() {
         const currentWalletAddressElement = document.getElementById('currentWalletAddress');
         if (window.ethereum.selectedAddress) {
             // 如果已连接，显示当前钱包地址
             currentWalletAddressElement.textContent = window.ethereum.selectedAddress;
+		
+            // 隱藏連接錢包按鈕
+	    hideConnectWalletButton();
+		
         } else {
             // 如果未连接，清空钱包地址
             currentWalletAddressElement.textContent = '';
         }
     }
 	
-    
+
+    // 隱藏連接錢包按鈕的函數
+    function hideConnectWalletButton() {
+        const connectWalletButton = document.getElementById('connectWalletButton');
+        connectWalletButton.style.display = 'none';
+    }
+
+	
     const contractAddress = '0xf44661DfaC638D7Ff3393Cd25fF9e3F04eec1764';
     const contractABI = [
 	{
