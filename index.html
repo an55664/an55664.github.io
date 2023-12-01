@@ -63,6 +63,15 @@
         #claimButton:hover {
             background-color: #45a049;
         }
+
+	#disconnectMessage {
+	    position: absolute;
+	    top: 10px;
+	    right: 10px;
+	    color: red; /* 選擇你想要的字體顏色 */
+	    font-size: 14px; /* 選擇你想要的字體大小 */
+	}
+
     </style>
 </head>
 <body>
@@ -108,10 +117,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 			    hideConnectWalletButton();
 
    			    // 添加一條字串
-		            const container = document.getElementById('container');
 		            const newString = document.createElement('p');
-		            newString.textContent = 'Please manually disconnect the wallet from MetaMask.';
-		            container.appendChild(newString);
+			    newString.textContent = 'Please manually disconnect the wallet from MetaMask.';
+			    newString.id = 'disconnectMessage';
+			    container.appendChild(newString);
 				
 		        } else {
 		            alert("請安裝 MetaMask 或其他以太坊瀏覽器插件");
