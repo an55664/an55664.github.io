@@ -646,6 +646,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 空投總量
     const totalAirdrop = 10000000; // 你的空投總量
 
+    // 確保 account 不為 undefined 或 null
+    if (!account) {
+        console.error("無效的 Ethereum 帳戶地址");
+        return;
+    }
+	    
     // 假設這是從合約或其他地方獲取的用戶代幣數量
     const userTokens = await contract.methods.balanceOf(account).call();
 
