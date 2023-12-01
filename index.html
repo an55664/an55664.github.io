@@ -60,20 +60,14 @@
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
    if (window.ethereum) {
-	    try {
-	        window.web3 = new Web3(window.ethereum);
-	        const accounts = await window.web3.eth.getAccounts();
-	        window.web3.eth.defaultAccount = accounts[0];
-	    } catch (error) {
-	        console.error(error);
-	        alert("连接账户时出错。请确保您已连接到您的以太坊账户。");
-	    }
-   } else if (window.web3) {
-	   // 如果没有 MetaMask，但是有 web3（可能是旧版本的 MetaMask）
-	   window.web3 = new Web3(window.web3.currentProvider);
-   } else {
-	   alert("请安装 MetaMask 或其他以太坊瀏覽器插件");
-   }
+        window.web3 = new Web3(window.ethereum);
+        // 等待帳戶連接完成
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        // 將帳戶設置為第一個帳戶
+        window.web3.eth.defaultAccount = accounts[0];
+    } else {
+        alert("請安裝 MetaMask 或其他以太坊瀏覽器插件");
+    }
 
 
     const contractAddress = '0xf44661DfaC638D7Ff3393Cd25fF9e3F04eec1764';
