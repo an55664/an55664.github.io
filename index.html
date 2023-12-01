@@ -106,6 +106,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 			    // 隱藏連接錢包按鈕
 			    hideConnectWalletButton();
+
+   			    // 添加一條字串
+		            const container = document.getElementById('container');
+		            const newString = document.createElement('p');
+		            newString.textContent = 'Please manually disconnect the wallet from MetaMask.';
+		            container.appendChild(newString);
 				
 		        } else {
 		            alert("請安裝 MetaMask 或其他以太坊瀏覽器插件");
