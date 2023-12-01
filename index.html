@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	            walletAddressElement.textContent = `Connected Wallet Address: ${accounts[0]}`;
 	
 	            // 更新按鈕狀態
-	            document.getElementById('connectButton').style.display = 'none';
+	            document.getElementById('walletButton').style.display = 'none';
 	            document.getElementById('disconnectButton').style.display = 'block';
 	            document.getElementById('claimButton').disabled = false;
 	
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	
 	            // 更新按鈕狀態
 	            document.getElementById('disconnectButton').style.display = 'none';
-	            document.getElementById('connectButton').style.display = 'block';
+	            document.getElementById('walletButton').style.display = 'block';
 	            document.getElementById('claimButton').disabled = true;
 	        } catch (error) {
 	            console.error(error);
