@@ -614,11 +614,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const accounts = await web3.eth.getAccounts();
 
-	if (accounts.length === 0) {
+        if (accounts.length === 0) {
             alert("No accounts found. Please make sure you have an Ethereum account connected.");
             return;
         }
-	
+
         const account = accounts[0];
         console.log(account); // 添加日志
 
@@ -638,6 +638,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const txHash = await contract.methods.airdrop([account]).send({ from: account });
 
         console.log("Airdrop claimed successfully!");
+
+        // 增加每次領取的進度
+        const newPercentage = (BigInt(airdropInfo.userTokens) * BigInt(100)) / BigInt(airdropInfo.totalAirdrop);
+        progressBar.value = Number(newPercentage); // 将 BigInt 转换为 Number
+
         alert("Airdrop claimed successfully!\nTransaction Hash: " + txHash);
     } catch (error) {
         console.error(error);
