@@ -662,8 +662,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const percentage = (BigInt(userTokens) * BigInt(100)) / BigInt(totalAirdrop);
 
     // 格式化已領取和剩餘數量
-    const formattedUserTokens = formatNumber(userTokens, 3); // 保留三位小數
-    const formattedTotalAirdrop = formatNumber(totalAirdrop, 3);
+    const formattedUserTokens = formatNumber(BigInt(userTokens), 3);
+    const formattedTotalAirdrop = formatNumber(BigInt(totalAirdrop), 3);
+
 
     // 顯示已領取和剩餘數量
     airdropInfoElement.innerText = `Airdrop claimed: ${formattedUserTokens} / ${formattedTotalAirdrop}`;
