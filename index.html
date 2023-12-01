@@ -606,8 +606,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 ]
     const contract = new web3.eth.Contract(contractABI, contractAddress);
 
-    // 初始化頁面上的空投訊息
-    await updateAirdropInfo();
     
     // JavaScript 函数，觸發空投
 window.claimAirdrop = async function() {
