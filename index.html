@@ -692,7 +692,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 格式化數字，保留指定小數位數
     function formatNumber(number, decimalPlaces) {
         const divisor = BigInt(10) ** BigInt(decimalPlaces);
-        const formattedNumber = (number / divisor).toLocaleString(undefined, { minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces });
+        const formattedNumber = (BigInt(number) / divisor).toLocaleString(undefined, { minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces });
         return formattedNumber;
     }
 });
