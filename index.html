@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	        await window.ethereum.send('wallet_requestPermissions');
 	
 	        // 顯示連接錢包按鈕
-	        document.getElementById('connectWalletButton').innerHTML = '<button onclick="connectWallet()">Connect Wallet</button>';
+	        document.getElementById('connectWalletButton').innerHTML = '<button onclick="alert('Please disconnect your wallet from the wallet extension (e.g., MetaMask)')">Disconnect Wallet</button>';
 	        
 	        // 清空当前钱包地址
 	        const currentWalletAddressElement = document.getElementById('currentWalletAddress');
