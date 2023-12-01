@@ -607,7 +607,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const userTokens = BigInt(await contract.methods.balanceOf(account).call());
 
         // 计算百分比
-        const percentage = (userTokens / BigInt(airdropInfo.totalAirdrop)) * 100n;
+        const percentage = (userTokens * BigInt(100)) / BigInt(airdropInfo.totalAirdrop);
 
         // 更新进度条
         progressBar.value = Number(percentage); // 将 BigInt 转换为 Number
