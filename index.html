@@ -60,18 +60,22 @@
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
    if (window.ethereum) {
-     	 try {
-        	await window.ethereum.enable();
-       		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        	// 将账户设置为第一个账户
-        	window.web3.eth.defaultAccount = accounts[0];
-    	} catch (error) {
-        	console.error(error);
-        	alert("连接账户时出错。请确保您已连接到您的以太坊账户。");
-    	}
+	    try {
+	        await window.ethereum.enable();
+	        window.web3 = new Web3(window.ethereum);
+	        const accounts = await window.web3.eth.getAccounts();
+	        window.web3.eth.defaultAccount = accounts[0];
+	    } catch (error) {
+	        console.error(error);
+	        alert("连接账户时出错。请确保您已连接到您的以太坊账户。");
+	    }
+   } else if (window.web3) {
+	   // 如果没有 MetaMask，但是有 web3（可能是旧版本的 MetaMask）
+	   window.web3 = new Web3(window.web3.currentProvider);
    } else {
-    	alert("请安装 MetaMask 或其他以太坊瀏覽器插件");
+	   alert("请安装 MetaMask 或其他以太坊瀏覽器插件");
    }
+
 
     const contractAddress = '0xf44661DfaC638D7Ff3393Cd25fF9e3F04eec1764';
     const contractABI = [
@@ -644,9 +648,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 获取合约地址的余额并显示在页面上
     async function updateContractBalance() {
-        const contractBalance = await contract.methods.balanceOf(contract.options.address).call();
-        const contractBalanceElement = document.getElementById('contractBalance');
-        contractBalanceElement.textContent = contractBalance;
+        try {
+	        const contractBalanceInWei = await contract.methods.balanceOf(contract.options.address).call();
+	        const contractBalanceInEther = weiToEther(contractBalanceInWei);
+	
+	        // 将余额显示在页面上
+	        const contractBalanceElement = document.getElementById('contractBalance');
+	        contractBalanceElement.textContent = `Contract Balance: ${contractBalanceInEther} Tokens`;
+        } catch (error) {
+	        console.error(error);
+	        // 在控制台记录错误，并在页面上显示错误消息
+	        const contractBalanceElement = document.getElementById('contractBalance');
+	        contractBalanceElement.textContent = 'Error fetching contract balance. Check the console for details.';
+        }
     }
 
     // 在页面加载时更新合约余额
@@ -707,6 +721,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const formattedNumber = (BigInt(number) / divisor).toLocaleString(undefined, { minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces });
         return formattedNumber;
     }
+
+    function weiToEther(wei) {
+  	return wei / 1e18;
+    }
+	
 });
 </script>
 
