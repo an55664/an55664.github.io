@@ -111,13 +111,42 @@ document.addEventListener('DOMContentLoaded', async () => {
 		        alert("连接钱包时出错。请查看控制台获取详细信息。");
 		    }
 	    };
+
+           // JavaScript 函数，断开钱包连接
+	    window.disconnectWallet = async function() {
+	        try {
+	            await window.ethereum.request({ method: 'wallet_requestPermissions' });
+	            // 清除默认帐户
+	            window.web3.eth.defaultAccount = null;
 	
-	    
+	            // 更新页面上的钱包地址
+	            updateWalletInfo();
+	        } catch (error) {
+	            console.error(error);
+	            alert("断开钱包连接时出错。请查看控制台获取详细信息。");
+	        }
+	    };
+	   
    } else {
     	alert("請安裝 MetaMask 或其他以太坊瀏覽器插件");
    }
 
 
+     // 更新钱包信息函数
+    function updateWalletInfo() {
+        const currentWalletAddressElement = document.getElementById('currentWalletAddress');
+        if (window.ethereum.selectedAddress) {
+            // 如果已连接，显示当前钱包地址
+            currentWalletAddressElement.textContent = window.ethereum.selectedAddress;
+        } else {
+            // 如果未连接，清空钱包地址
+            currentWalletAddressElement.textContent = '';
+        }
+    }
+
+    // 在页面加载时更新钱包信息
+    updateWalletInfo(); 	
+    
     const contractAddress = '0xf44661DfaC638D7Ff3393Cd25fF9e3F04eec1764';
     const contractABI = [
 	{
