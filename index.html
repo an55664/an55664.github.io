@@ -610,6 +610,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.claimAirdrop = async function() {
     try {
         const accounts = await web3.eth.getAccounts();
+
+	if (accounts.length === 0) {
+            alert("No accounts found. Please make sure you have an Ethereum account connected.");
+            return;
+        }
+	
         const account = accounts[0];
         console.log(account); // 添加日志
 
