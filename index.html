@@ -61,7 +61,10 @@
 document.addEventListener('DOMContentLoaded', async () => {
     if (window.ethereum) {
         window.web3 = new Web3(window.ethereum);
-        await window.ethereum.enable();
+        // 等待帳戶連接完成
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        // 將帳戶設置為第一個帳戶
+        window.web3.eth.defaultAccount = accounts[0];
     } else {
         alert("請安裝 MetaMask 或其他以太坊瀏覽器插件");
     }
