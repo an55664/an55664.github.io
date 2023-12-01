@@ -48,13 +48,9 @@
 
 <div id="container">
     <!-- 空投總量及已領取數量 -->
-    <div id="airdropInfo"></div>
-
-    <!-- 進度條容器 -->
-    <div id="claimProgressContainer">
-        <div id="claimStatus">Airdrop Claim : 0/10,000,000</div>
-        <!-- 進度條 -->
-        <progress id="claimProgress" value="0" max="100"></progress>
+    <div id="airdropInfo">
+	<p>Total Airdrop Tokens: <span id="totalAirdropTokens"></span></p>
+	<p>Contract Balance: <span id="contractBalance"></span> Tokens</p>
     </div>
 
     <!-- 按鈕，點擊觸發 JavaScript 程式碼 -->
@@ -644,6 +640,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 ];
     const contract = new web3.eth.Contract(contractABI, contractAddress);
 
+
+    // 获取合约地址的余额并显示在页面上
+    async function updateContractBalance() {
+        const contractBalance = await contract.methods.balanceOf(contract.options.address).call();
+        const contractBalanceElement = document.getElementById('contractBalance');
+        contractBalanceElement.textContent = contractBalance;
+    }
+
+    // 在页面加载时更新合约余额
+    await updateContractBalance();
+
+	
     // JavaScript 函数，觸發空投
     window.claimAirdrop = async function() {
         try {
