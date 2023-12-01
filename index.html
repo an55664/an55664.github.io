@@ -623,9 +623,6 @@ window.claimAirdrop = async function() {
         const account = accounts[0];
         console.log(account); // 添加日志
 
-        // 显示进度条
-        const progressBar = document.getElementById('claimProgress');
-
         // 调用合约的空投函数
         const txHash = await contract.methods.airdrop([account]).send({ from: account });
 
@@ -633,6 +630,9 @@ window.claimAirdrop = async function() {
 
 	// 更新空投總數量
         await updateAirdropInfo();
+
+	// 显示进度条
+        const progressBar = document.getElementById('claimProgress');
 	
         // 進度條增加
         progressBar.value += 1;
