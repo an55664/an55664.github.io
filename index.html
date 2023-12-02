@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
 	
-    const contractAddress = '0x0101cb05e12b4b08B4446816DFAEeF3FdE27f020';
+    const contractAddress = '0xc3B42f68D189d15802E17400F9396344D46c0925';
     const contractABI = [
 	{
 		"inputs": [
@@ -240,6 +240,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 			{
 				"internalType": "address",
 				"name": "_team",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_otherTokenAddress",
 				"type": "address"
 			}
 		],
@@ -649,6 +654,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 				"internalType": "string",
 				"name": "",
 				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "otherTokenAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
