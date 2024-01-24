@@ -1,0 +1,21 @@
+// JavaScript 示例（使用 web3.js）
+const web3 = new Web3(Web3.givenProvider);
+
+// 智能合约地址和 ABI（在部署后获取）
+const contractAddress = 'YOUR_CONTRACT_ADDRESS';
+const contractAbi = [...]; // 智能合约 ABI
+
+const diceGameContract = new web3.eth.Contract(contractAbi, contractAddress);
+
+// 监听按钮点击事件
+document.getElementById('rollButton').addEventListener('click', async () => {
+    try {
+        // 调用智能合约的 rollDice 函数
+        const result = await diceGameContract.methods.rollDice().send({ from: userAddress });
+
+        // 处理结果，例如显示点数和奖励的代币数量
+        console.log('Dice result:', result);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
