@@ -1,19 +1,18 @@
 // JavaScript 示例（使用 web3.js）
 
 // 检查是否具有 Web3 提供程序
-/*if (typeof Web3 !== 'undefined') {
-    // Web3 已加载
-} else {
-    console.error("Web3 not detected. Please check if it's included.");
-}*/
 if (window.ethereum) {
     window.web3 = new Web3(window.ethereum);
     try {
         // 请求用户授权
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        await window.ethereum.enable();
     } catch (error) {
         console.error("User denied account access");
     }
+} else if (window.web3) {
+    window.web3 = new Web3(window.web3.currentProvider);
+} else {
+    console.error("No Web3 provider detected");
 }
 
 
