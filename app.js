@@ -15,7 +15,6 @@ if (window.ethereum) {
     console.error("No Web3 provider detected");
 }
 
-
 const web3 = window.web3;
 
 // 智能合约地址和 ABI（在部署后获取）
