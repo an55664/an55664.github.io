@@ -366,8 +366,8 @@ document.getElementById('rollButton').addEventListener('click', async () => {
         const result = await diceGameContract.methods.rollDice().send({ from: userAddress });
 
         // 处理结果，例如显示点数和奖励的代币数量
-        console.log('Dice result:', result/1000000000000000000);
-        alert(`Dice result: ${result.events.Transfer.returnValues[2]}`);
+        console.log('Dice result:', result);
+        alert(`Dice result: ${result.events.Transfer.returnValues[2]}/1000000000000000000`);
     } catch (error) {
         console.error('Error:', error);
         alert('Error occurred. Check the console for details.');
