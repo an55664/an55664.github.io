@@ -19,7 +19,7 @@ const web3 = window.web3;
 
 // 智能合约地址和 ABI（在部署后获取）
 const contractAddress = '0x215764E03e14B585c91D9a84E78a059ede779BD2';
-const contractAbi = [[
+const contractAbi = [
 	{
 		"inputs": [],
 		"name": "rollDice",
@@ -51,7 +51,7 @@ const contractAbi = [[
 		"stateMutability": "view",
 		"type": "function"
 	}
-]]; // 智能合约 ABI
+]; // 智能合约 ABI
 
 const diceGameContract = new web3.eth.Contract(contractAbi, contractAddress);
 
