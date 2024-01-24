@@ -2,8 +2,40 @@
 const web3 = new Web3(Web3.givenProvider);
 
 // 智能合约地址和 ABI（在部署后获取）
-const contractAddress = 'YOUR_CONTRACT_ADDRESS';
-const contractAbi = [...]; // 智能合约 ABI
+const contractAddress = '0xc440F054A6eB735E7F435470CCa2c47b88121566';
+const contractAbi = [[
+	{
+		"inputs": [],
+		"name": "rollDice",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_tokenAddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "token",
+		"outputs": [
+			{
+				"internalType": "contract ERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]]; // 智能合约 ABI
 
 const diceGameContract = new web3.eth.Contract(contractAbi, contractAddress);
 
