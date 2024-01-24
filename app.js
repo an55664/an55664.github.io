@@ -1,11 +1,11 @@
 // JavaScript 示例（使用 web3.js）
 
 // 检查是否具有 Web3 提供程序
-if (typeof Web3 !== 'undefined') {
+/*if (typeof Web3 !== 'undefined') {
     // Web3 已加载
 } else {
     console.error("Web3 not detected. Please check if it's included.");
-}
+}*/
 if (window.ethereum) {
     window.web3 = new Web3(window.ethereum);
     try {
