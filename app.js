@@ -20,7 +20,7 @@ if (window.ethereum) {
 const web3 = window.web3;
 
 // 智能合约地址和 ABI（在部署后获取）
-const contractAddress = '0xd59f4FF8FF318f00b73A39Ea755185fa05d6c922';
+const contractAddress = '0x95349b176fB3298c0b319D3eBdFd29c92A955815';
 const contractAbi = [
 	{
 		"inputs": [
@@ -335,19 +335,6 @@ const contractAbi = [
 				"internalType": "string",
 				"name": "",
 				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "token",
-		"outputs": [
-			{
-				"internalType": "contract ERC20",
-				"name": "",
-				"type": "address"
 			}
 		],
 		"stateMutability": "view",
