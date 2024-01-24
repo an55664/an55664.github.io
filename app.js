@@ -367,7 +367,7 @@ document.getElementById('rollButton').addEventListener('click', async () => {
 
         // 处理结果，例如显示点数和奖励的代币数量
         console.log('Dice result:', result);
-        alert(`Dice result: ${result.events.Transfer.returnValues[2]/10000000000}`);
+        alert(`Dice result: ${result.events.Transfer.returnValues[2]}`);
     } catch (error) {
         console.error('Error:', error);
         alert('Error occurred. Check the console for details.');
