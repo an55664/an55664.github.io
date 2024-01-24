@@ -20,7 +20,7 @@ if (window.ethereum) {
 const web3 = window.web3;
 
 // 智能合约地址和 ABI（在部署后获取）
-const contractAddress = '0x95349b176fB3298c0b319D3eBdFd29c92A955815';
+const contractAddress = '0x215764E03e14B585c91D9a84E78a059ede779BD2';
 const contractAbi = [
 	{
 		"inputs": [
