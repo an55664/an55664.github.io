@@ -18,7 +18,7 @@ if (window.ethereum) {
 const web3 = window.web3;
 
 // 智能合约地址和 ABI（在部署后获取）
-const contractAddress = '0x4142baf6e7051670db3590237Eff9818867e5d5d';
+const contractAddress = '0x1Ea70250C76DE1109062b77dc81ed36465ec9d11';
 const contractAbi = [
 	{
 		"inputs": [
@@ -367,7 +367,7 @@ document.getElementById('rollButton').addEventListener('click', async () => {
 
         // 处理结果，例如显示点数和奖励的代币数量
         console.log('Dice result:', result);
-        alert(`Dice result: ${result.events.Transfer.returnValues[2]/1000000000000000000}`);
+        alert(`Dice result: ${result.events.Transfer.returnValues[2]/10000000000}`);
     } catch (error) {
         console.error('Error:', error);
         alert('Error occurred. Check the console for details.');
