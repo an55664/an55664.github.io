@@ -18,7 +18,7 @@ if (window.ethereum) {
 const web3 = window.web3;
 
 // 智能合约地址和 ABI（在部署后获取）
-const contractAddress = '0xbCc4C8585c4CFF02D61044B312A0D09ac06efB70';
+const contractAddress = '0x4A1a695322dF8EC355B53A6B63371CE549f2BbeA';
 const contractAbi = [
 	{
 		"inputs": [
@@ -31,6 +31,11 @@ const contractAbi = [
 				"internalType": "string",
 				"name": "symbol",
 				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_burnDestination",
+				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -255,6 +260,19 @@ const contractAbi = [
 		"name": "burn",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "burnDestination",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
