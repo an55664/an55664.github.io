@@ -1,4 +1,4 @@
-// JavaScript 示例（使用 web3.js）
+// JavaScript 示例（使用 web3.js）<button id="burnButton">Burn Tokens</button>
 
 // 检查是否具有 Web3 提供程序
 if (window.ethereum) {
