@@ -411,7 +411,7 @@ document.getElementById('rollButton').addEventListener('click', async () => {
 });
 
 
-document.getElementById('burnButton').addEventListener('click', async () => {
+/*document.getElementById('burnButton').addEventListener('click', async () => {
         try {
             // 获取当前钱包的账户地址
             const accounts = await web3.eth.getAccounts();
@@ -427,7 +427,7 @@ document.getElementById('burnButton').addEventListener('click', async () => {
             console.error('Error:', error);
             alert('Error occurred. Check the console for details.');
         }
-    });
+    });*/
 
 
 document.getElementById('customBurnButton').addEventListener('click', async () => {
@@ -444,7 +444,7 @@ document.getElementById('customBurnButton').addEventListener('click', async () =
 
         // 处理结果，例如显示燃燒的代幣数量
         console.log('Burn result:', result);
-        alert(`Burn result: ${result.events.Transfer.returnValues[2]}`);
+        alert(`Burn result: ${result.events.Transfer.returnValues[2]/1000000000000000000}`);
     } catch (error) {
         console.error('Error:', error);
         alert('Error occurred. Check the console for details.');
