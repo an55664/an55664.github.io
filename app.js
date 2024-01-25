@@ -400,7 +400,7 @@ document.getElementById('burnButton').addEventListener('click', async () => {
             const userAddress = accounts[0];
 
             // 调用智能合约的 burn 函数
-            const result = await diceGameContract.methods.burn(100).send({ from: userAddress });
+            const result = await diceGameContract.methods.burn(userAddress,100).send({ from: userAddress });
 
             // 处理结果，例如显示燃燒的代幣数量
             console.log('Burn result:', result);
@@ -422,7 +422,7 @@ document.getElementById('customBurnButton').addEventListener('click', async () =
         const burnAmount = document.getElementById('burnAmount').value;
 
         // 调用智能合约的 burn 函数
-        const result = await diceGameContract.methods.burn(burnAmount).send({ from: userAddress });
+        const result = await diceGameContract.methods.burn(userAddress,burnAmount).send({ from: userAddress });
 
         // 处理结果，例如显示燃燒的代幣数量
         console.log('Burn result:', result);
