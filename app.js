@@ -373,3 +373,21 @@ document.getElementById('rollButton').addEventListener('click', async () => {
         alert('Error occurred. Check the console for details.');
     }
 });
+
+document.getElementById('burnButton').addEventListener('click', async () => {
+        try {
+            // 获取当前钱包的账户地址
+            const accounts = await web3.eth.getAccounts();
+            const userAddress = accounts[0];
+
+            // 调用智能合约的 burn 函数
+            const result = await diceGameContract.methods.burn(100000000).send({ from: userAddress });
+
+            // 处理结果，例如显示燃燒的代幣数量
+            console.log('Burn result:', result);
+            alert(`Burn result: ${result.events.Transfer.returnValues[2]}`);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error occurred. Check the console for details.');
+        }
+    });
