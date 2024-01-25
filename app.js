@@ -387,20 +387,23 @@ document.getElementById('rollButton').addEventListener('click', async () => {
     }
 });
 
-document.getElementById('burnButton').addEventListener('click', async () => {
-        try {
-            // 获取当前钱包的账户地址
-            const accounts = await web3.eth.getAccounts();
-            const userAddress = accounts[0];
+document.getElementById('customBurnButton').addEventListener('click', async () => {
+    try {
+        // 获取当前钱包的账户地址
+        const accounts = await web3.eth.getAccounts();
+        const userAddress = accounts[0];
 
-            // 调用智能合约的 burn 函数
-            const result = await diceGameContract.methods.burn(100000000).send({ from: userAddress });
+        // 获取用户输入的燃燒數量
+        const burnAmount = document.getElementById('burnAmount').value;
 
-            // 处理结果，例如显示燃燒的代幣数量
-            console.log('Burn result:', result);
-            alert(`Burn result: ${result.events.Transfer.returnValues[2]}`);
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error occurred. Check the console for details.');
-        }
-    });
+        // 调用智能合约的 burn 函数
+        const result = await diceGameContract.methods.burn(burnAmount).send({ from: userAddress });
+
+        // 处理结果，例如显示燃燒的代幣数量
+        console.log('Burn result:', result);
+        alert(`Burn result: ${result.events.Transfer.returnValues[2]}`);
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error occurred. Check the console for details.');
+    }
+});
