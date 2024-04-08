@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mine Tokens</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.3.0/dist/web3.min.js"></script>
+</head>
+<body>
+    <h1>Mine Tokens</h1>
+    <button onclick="mineTokens()">Mine</button>
+
+    <script>
+        async function mineTokens() {
+            // Connect to the user's wallet
+            if (window.ethereum) {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                window.web3 = new Web3(window.ethereum);
+            } else {
+                alert('Please install MetaMask to use this feature');
+                return;
+            }
+
+            // Replace with your mining contract address
+            const miningContractAddress = '<Your_Mining_Contract_Address>';
+
+            // Mining contract ABI
+            const miningContractABI = [
+                // Contract ABI
+            ];
+
+            // Instantiate the mining contract
+            const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
+
+            // Replace with your Ethereum address
+            const yourAddress = '<Your_Address>';
+
+            // Call the mine function
+            miningContractInstance.methods.mine().send({ from: yourAddress })
+            .then(function(receipt){
+                console.log("Mining successful");
+            })
+            .catch(function(error){
+                console.error("Mining failed: " + error);
+            });
+        }
+    </script>
+</body>
+</html>
