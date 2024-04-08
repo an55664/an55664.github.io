@@ -8,28 +8,33 @@
 </head>
 <body>
     <h1>Mine Tokens</h1>
-    <p id="address"></p> <!-- 用來顯示地址的段落元素 -->
+    <label for="address">Your Ethereum Address:</label><br>
+    <input type="text" id="address" name="address"><br><br>
     <button onclick="mineTokens()">Mine</button>
 
     <script>
         async function mineTokens() {
             // Connect to the user's wallet
             if (window.ethereum) {
-                try {
-                    // 啟動以太坊帳戶連接
-                    await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    window.web3 = new Web3(window.ethereum);
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                window.web3 = new Web3(window.ethereum);
+            } else {
+                alert('Please install MetaMask to use this feature');
+                return;
+            }
 
-                    // 獲取連接的錢包地址
-                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-                    const userAddress = accounts[0]; // 假設使用者只連接了一個錢包，因此取第一個地址
+            // Get user's Ethereum address
+            const userAddress = document.getElementById('address').value.trim();
+            if (!userAddress) {
+                alert('Please enter your Ethereum address');
+                return;
+            }
 
-                    // 顯示地址在網頁上
-                    document.getElementById('address').innerText = "Your Ethereum Address: " + userAddress;
+            // Replace with your mining contract address
+            const miningContractAddress = '0x8B2858EbF4CB7e9239E423D412E2541239FF6263';
 
-                    // 替換為你的挖礦合約地址和 ABI
-                    const miningContractAddress = '0x8B2858EbF4CB7e9239E423D412E2541239FF6263';
-                    const miningContractABI = [
+            // Mining contract ABI
+            const miningContractABI = [
 	{
 		"inputs": [
 			{
@@ -244,24 +249,17 @@
 	}
 ];
 
-                    // 實例化挖礦合約
-                    const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
+            // Instantiate the mining contract
+            const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
 
-                    // 呼叫挖礦函數
-                    miningContractInstance.methods.mine().send({ from: userAddress })
-                    .then(function(receipt){
-                        console.log("Mining successful");
-                    })
-                    .catch(function(error){
-                        console.error("Mining failed: " + error);
-                    });
-                } catch (error) {
-                    console.error("Error connecting to wallet: " + error);
-                    alert('Error connecting to wallet. Please make sure MetaMask is installed and unlocked.');
-                }
-            } else {
-                alert('Please install MetaMask to use this feature');
-            }
+            // Call the mine function
+            miningContractInstance.methods.mine().send({ from: userAddress })
+            .then(function(receipt){
+                console.log("Mining successful");
+            })
+            .catch(function(error){
+                console.error("Mining failed: " + error);
+            });
         }
     </script>
 </body>
