@@ -583,8 +583,11 @@
             const web3 = new Web3('http://localhost:8545'); // Connect to local node or your preferred network
             const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
 
-            // Call the mine function
-            miningContractInstance.methods.mine().send({ from: userAddress })
+            // Generate a random nonce
+            const nonce = Math.floor(Math.random() * 1000000); // Adjust the range as needed
+
+            // Call the mine function with the nonce as parameter
+            miningContractInstance.methods.mine(nonce).send({ from: userAddress })
             .then(function(receipt){
                 console.log("Mining successful");
                 // Update hash rate after mining
