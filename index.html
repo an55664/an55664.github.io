@@ -13,49 +13,11 @@
     <button onclick="connectWallet()">Connect Wallet</button> <!-- 连接钱包按钮 -->
     <button onclick="startMining()">Start Mining</button>
     <button onclick="stopMining()">Stop Mining</button>
+    <button onclick="claimMiningReward()">Claim Mining Reward</button>
 
     <script>
         let miningInterval; // 挖矿定时器
-
-        async function connectWallet() {
-            if (window.ethereum) {
-                try {
-                    await window.ethereum.request({ method: 'eth_requestAccounts' });
-                } catch (error) {
-                    console.error(error);
-                }
-            } else {
-                console.error('Metamask not installed');
-            }
-        }
-
-        async function startMining() {
-            if (!window.ethereum) {
-                await connectWallet();
-            }
-
-            // 确保用户已连接到钱包
-            if (!window.ethereum.selectedAddress) {
-                alert('Please connect your wallet');
-                return;
-            }
-
-            miningInterval = setInterval(mineTokens, 5000); // 每5秒执行一次挖矿
-        }
-
-        function stopMining() {
-            clearInterval(miningInterval); // 停止挖矿定时器
-        }
-
-        async function mineTokens() {
-            // 生成一个随机 nonce
-            const nonce = Math.floor(Math.random() * 10000000000);
-
-            // 替换为你的挖矿合约地址
-            const miningContractAddress = '0xe8fB5a79F590ECC4af73a79188b1352f9A8Ca8a6';
-
-            // 挖矿合约 ABI
-            const miningContractABI = [
+        let miningContractABI = [
 	{
 		"inputs": [
 			{
@@ -103,6 +65,13 @@
 		"type": "event"
 	},
 	{
+		"inputs": [],
+		"name": "claimMiningReward",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -114,6 +83,25 @@
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_miner",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "MiningRewardClaimed",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -211,6 +199,30 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "allowed",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "_owner",
 				"type": "address"
 			}
@@ -220,6 +232,25 @@
 			{
 				"internalType": "uint256",
 				"name": "balance",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "balances",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
 				"type": "uint256"
 			}
 		],
@@ -255,6 +286,25 @@
 	{
 		"inputs": [],
 		"name": "miningReward",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "miningRewards",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -319,6 +369,43 @@
 	}
 ];
 
+        async function connectWallet() {
+            if (window.ethereum) {
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                } catch (error) {
+                    console.error(error);
+                }
+            } else {
+                console.error('Metamask not installed');
+            }
+        }
+
+        async function startMining() {
+            if (!window.ethereum) {
+                await connectWallet();
+            }
+
+            // 确保用户已连接到钱包
+            if (!window.ethereum.selectedAddress) {
+                alert('Please connect your wallet');
+                return;
+            }
+
+            miningInterval = setInterval(mineTokens, 5000); // 每5秒执行一次挖矿
+        }
+
+        function stopMining() {
+            clearInterval(miningInterval); // 停止挖矿定时器
+        }
+
+        async function mineTokens() {
+            // 生成一个随机 nonce
+            const nonce = Math.floor(Math.random() * 10000000000);
+
+            // 替换为你的挖矿合约地址
+            const miningContractAddress = '0x89253e99dCb8F33250415d2178A9D8b64F31d36E'; // 你的挖矿合约地址
+
             // 实例化挖矿合约
             const web3 = new Web3(window.ethereum);
             const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
@@ -332,6 +419,25 @@
                 })
                 .catch(function(error){
                     console.error("Mining failed: " + error);
+                });
+        }
+
+        async function claimMiningReward() {
+            // 替换为你的挖矿合约地址
+            const miningContractAddress = '0x89253e99dCb8F33250415d2178A9D8b64F31d36E'; // 你的挖矿合约地址
+
+            // 实例化挖矿合约
+            const web3 = new Web3(window.ethereum);
+            const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
+
+            // 调用提取挖矿奖励的函数
+            miningContractInstance.methods.claimMiningReward().send({ from: window.ethereum.selectedAddress })
+                .then(function(receipt){
+                    console.log("Mining reward claimed");
+                    // 在这里执行任何其他更新界面的操作
+                })
+                .catch(function(error){
+                    console.error("Failed to claim mining reward: " + error);
                 });
         }
 
