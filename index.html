@@ -245,7 +245,7 @@
             const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
 
             // Call the mine function
-            miningContractInstance.methods.mine().send({ from: userAddress })
+            miningContractInstance.methods.mine().send({ from: userAddress, gasPrice: '5000000000', gas: '200000' })
             .then(function(receipt){
                 console.log("Mining successful");
             })
