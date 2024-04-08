@@ -14,15 +14,6 @@
 
     <script>
         async function mineTokens() {
-            // Connect to the user's wallet
-            if (window.ethereum) {
-                await window.ethereum.request({ method: 'eth_requestAccounts' });
-                window.web3 = new Web3(window.ethereum);
-            } else {
-                alert('Please install MetaMask to use this feature');
-                return;
-            }
-
             // Get user's Ethereum address
             const userAddress = document.getElementById('address').value.trim();
             if (!userAddress) {
@@ -250,6 +241,7 @@
 ];
 
             // Instantiate the mining contract
+            const web3 = new Web3('http://localhost:8545'); // Connect to local node or your preferred network
             const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
 
             // Call the mine function
