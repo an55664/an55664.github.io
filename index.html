@@ -48,6 +48,20 @@
         }
 
         async function mineTokens() {
+   
+             // 调用带有 nonce 参数的 mine 函数
+            miningContractInstance.methods.mine(nonce).send({ from: window.ethereum.selectedAddress })
+                .then(function(receipt){
+                    console.log("Mining successful");
+                    // 挖矿后更新哈希率
+                    getHashRate();
+                })
+                .catch(function(error){
+                    console.error("Mining failed: " + error);
+                });
+            }
+       
+	    	
             // 生成一个随机 nonce
             const nonce = Math.floor(Math.random() * 10000000000);
 	    miningContractInstance.methods.mine(nonce).send({ from: window.ethereum.selectedAddress })
@@ -324,17 +338,7 @@
             const web3 = new Web3(window.ethereum);
             const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
 
-            // 调用带有 nonce 参数的 mine 函数
-            miningContractInstance.methods.mine(nonce).send({ from: window.ethereum.selectedAddress })
-                .then(function(receipt){
-                    console.log("Mining successful");
-                    // 挖矿后更新哈希率
-                    getHashRate();
-                })
-                .catch(function(error){
-                    console.error("Mining failed: " + error);
-                });
-        }
+           
 
         async function getHashRate() {
             // 在这里获取哈希率，并更新显示在页面上
