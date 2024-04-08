@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mining Stats</title>
+    <title>Mine Tokens</title>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.3.0/dist/web3.min.js"></script>
 </head>
 <body>
-    <h1>Mining Stats</h1>
-    <p>Mining Hash Rate: <span id="hashRate">0</span> hashes/s</p>
+    <h1>Mine Tokens</h1>
+    <label for="address">Your Ethereum Address:</label><br>
+    <input type="text" id="address" name="address"><br><br>
+    <button onclick="mineTokens()">Mine</button>
+
+    <p id="hashRate">Mining Hash Rate: -</p> <!-- Add an element to display hash rate -->
 
     <script>
         async function getHashRate() {
@@ -296,11 +300,300 @@
             }
 
             const avgHashRate = totalHashes / (blockEnd - blockStart + 1);
-            document.getElementById('hashRate').innerText = avgHashRate.toFixed(2);
+            document.getElementById('hashRate').innerText = 'Mining Hash Rate: ' + avgHashRate.toFixed(2) + ' hashes/s';
         }
 
-        // Update hash rate every 5 seconds
-        setInterval(getHashRate, 5000);
+        async function mineTokens() {
+            // Get user's Ethereum address
+            const userAddress = document.getElementById('address').value.trim();
+            if (!userAddress) {
+                alert('Please enter your Ethereum address');
+                return;
+            }
+
+            // Replace with your mining contract address
+            const miningContractAddress = '0xe8fB5a79F590ECC4af73a79188b1352f9A8Ca8a6';
+
+            // Mining contract ABI
+            const miningContractABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_totalSupplyLimit",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_miningReward",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_miningDifficulty",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_spender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "nonce",
+				"type": "uint256"
+			}
+		],
+		"name": "mine",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "mint",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Mint",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "balance",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "miningDifficulty",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "miningReward",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupplyLimit",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+            // Instantiate the mining contract
+            const web3 = new Web3('http://localhost:8545'); // Connect to local node or your preferred network
+            const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
+
+            // Call the mine function
+            miningContractInstance.methods.mine().send({ from: userAddress })
+            .then(function(receipt){
+                console.log("Mining successful");
+                // Update hash rate after mining
+                getHashRate();
+            })
+            .catch(function(error){
+                console.error("Mining failed: " + error);
+            });
+        }
     </script>
 </body>
 </html>
