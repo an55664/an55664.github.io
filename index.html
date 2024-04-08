@@ -3,24 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mine Tokens</title>
+    <title>Mining Stats</title>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.3.0/dist/web3.min.js"></script>
 </head>
 <body>
-    <h1>Mine Tokens</h1>
-    <label for="address">Your Ethereum Address:</label><br>
-    <input type="text" id="address" name="address"><br><br>
-    <button onclick="mineTokens()">Mine</button>
+    <h1>Mining Stats</h1>
+    <p>Mining Hash Rate: <span id="hashRate">0</span> hashes/s</p>
 
     <script>
-        async function mineTokens() {
-            // Get user's Ethereum address
-            const userAddress = document.getElementById('address').value.trim();
-            if (!userAddress) {
-                alert('Please enter your Ethereum address');
-                return;
-            }
-
+        async function getHashRate() {
             // Replace with your mining contract address
             const miningContractAddress = '0xe8fB5a79F590ECC4af73a79188b1352f9A8Ca8a6';
 
@@ -293,15 +284,23 @@
             const web3 = new Web3('http://localhost:8545'); // Connect to local node or your preferred network
             const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
 
-            // Call the mine function
-            miningContractInstance.methods.mine().send({ from: userAddress, gasPrice: '5000000000', gas: '200000' })
-            .then(function(receipt){
-                console.log("Mining successful");
-            })
-            .catch(function(error){
-                console.error("Mining failed: " + error);
-            });
+            // Get mining statistics
+            const blockNumber = await web3.eth.getBlockNumber();
+            const blockStart = blockNumber - 10; // Get block number from 10 blocks ago
+            const blockEnd = blockNumber;
+
+            let totalHashes = 0;
+            for (let i = blockStart; i <= blockEnd; i++) {
+                const block = await web3.eth.getBlock(i);
+                totalHashes += block.hash.length; // Get hash length as a rough estimate of hash rate
+            }
+
+            const avgHashRate = totalHashes / (blockEnd - blockStart + 1);
+            document.getElementById('hashRate').innerText = avgHashRate.toFixed(2);
         }
+
+        // Update hash rate every 5 seconds
+        setInterval(getHashRate, 5000);
     </script>
 </body>
 </html>
