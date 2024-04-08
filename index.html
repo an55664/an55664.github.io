@@ -8,300 +8,52 @@
 </head>
 <body>
     <h1>Mine Tokens</h1>
-    <button onclick="mineTokens()">Mine</button>
-    <button onclick="startAutoMining()">Start Auto Mining</button>
-    <button onclick="stopAutoMining()">Stop Auto Mining</button>
+    <p id="hashRate">Mining Hash Rate: -</p> <!-- 显示哈希率 -->
 
-    <p id="hashRate">Mining Hash Rate: -</p>
+    <button onclick="startMining()">Start Mining</button>
+    <button onclick="stopMining()">Stop Mining</button>
 
     <script>
-        let miningInterval;
+        let miningInterval; // 挖矿定时器
 
-        async function getHashRate() {
-            const miningContractAddress = '0xe8fB5a79F590ECC4af73a79188b1352f9A8Ca8a6';
-            const miningContractABI = [
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_totalSupplyLimit",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_miningReward",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_miningDifficulty",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "_owner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "_spender",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_value",
-				"type": "uint256"
-			}
-		],
-		"name": "Approval",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "nonce",
-				"type": "uint256"
-			}
-		],
-		"name": "mine",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "mint",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "success",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "_to",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "Mint",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_value",
-				"type": "uint256"
-			}
-		],
-		"name": "transfer",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "success",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "_from",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "_to",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_value",
-				"type": "uint256"
-			}
-		],
-		"name": "Transfer",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_owner",
-				"type": "address"
-			}
-		],
-		"name": "balanceOf",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "balance",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "decimals",
-		"outputs": [
-			{
-				"internalType": "uint8",
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "miningDifficulty",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "miningReward",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "name",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "symbol",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "totalSupply",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "totalSupplyLimit",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-];
+        async function connectWallet() {
+            if (window.ethereum) {
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                } catch (error) {
+                    console.error(error);
+                }
+            } else {
+                console.error('Metamask not installed');
+            }
+        }
 
-            const web3 = new Web3(window.ethereum);
-            const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
-
-            const blockNumber = await web3.eth.getBlockNumber();
-            const blockStart = blockNumber - 10;
-            const blockEnd = blockNumber;
-
-            let totalHashes = 0;
-            for (let i = blockStart; i <= blockEnd; i++) {
-                const block = await web3.eth.getBlock(i);
-                totalHashes += block.hash.length;
+        async function startMining() {
+            if (!window.ethereum) {
+                await connectWallet();
             }
 
-            const avgHashRate = totalHashes / (blockEnd - blockStart + 1);
-            document.getElementById('hashRate').innerText = 'Mining Hash Rate: ' + avgHashRate.toFixed(2) + ' hashes/s';
+            // 确保用户已连接到钱包
+            if (!window.ethereum.selectedAddress) {
+                alert('Please connect your wallet');
+                return;
+            }
+
+            miningInterval = setInterval(mineTokens, 5000); // 每5秒执行一次挖矿
+        }
+
+        function stopMining() {
+            clearInterval(miningInterval); // 停止挖矿定时器
         }
 
         async function mineTokens() {
+            // 生成一个随机 nonce
+            const nonce = Math.floor(Math.random() * 1000000);
+
+            // 替换为你的挖矿合约地址
             const miningContractAddress = '0xe8fB5a79F590ECC4af73a79188b1352f9A8Ca8a6';
+
+            // 挖矿合约 ABI
             const miningContractABI = [
 	{
 		"inputs": [
@@ -566,27 +318,25 @@
 	}
 ];
 
+            // 实例化挖矿合约
             const web3 = new Web3(window.ethereum);
             const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
 
-            const nonce = Math.floor(Math.random() * 1000000);
-
-            miningContractInstance.methods.mine(nonce).send({ from: web3.eth.defaultAccount })
-            .then(function(receipt){
-                console.log("Mining successful");
-                getHashRate();
-            })
-            .catch(function(error){
-                console.error("Mining failed: " + error);
-            });
+            // 调用带有 nonce 参数的 mine 函数
+            miningContractInstance.methods.mine(nonce).send({ from: window.ethereum.selectedAddress })
+                .then(function(receipt){
+                    console.log("Mining successful");
+                    // 挖矿后更新哈希率
+                    getHashRate();
+                })
+                .catch(function(error){
+                    console.error("Mining failed: " + error);
+                });
         }
 
-        function startAutoMining() {
-            miningInterval = setInterval(mineTokens, 5000);
-        }
-
-        function stopAutoMining() {
-            clearInterval(miningInterval);
+        async function getHashRate() {
+            // 在这里获取哈希率，并更新显示在页面上
+            document.getElementById('hashRate').innerText = 'Mining Hash Rate: -';
         }
     </script>
 </body>
