@@ -22,11 +22,110 @@
             }
 
             // Replace with your mining contract address
-            const miningContractAddress = '<Your_Mining_Contract_Address>';
+            const miningContractAddress = '0xA2135C237D4b429d203667274F3aB4e8e71f38fE';
 
             // Mining contract ABI
             const miningContractABI = [
-                // Contract ABI
+            	{
+            		"inputs": [
+            			{
+            				"internalType": "uint256",
+            				"name": "_initialSupply",
+            				"type": "uint256"
+            			},
+            			{
+            				"internalType": "uint256",
+            				"name": "_reward",
+            				"type": "uint256"
+            			}
+            		],
+            		"stateMutability": "nonpayable",
+            		"type": "constructor"
+            	},
+            	{
+            		"anonymous": false,
+            		"inputs": [
+            			{
+            				"indexed": true,
+            				"internalType": "address",
+            				"name": "_miner",
+            				"type": "address"
+            			},
+            			{
+            				"indexed": false,
+            				"internalType": "uint256",
+            				"name": "_reward",
+            				"type": "uint256"
+            			}
+            		],
+            		"name": "Mining",
+            		"type": "event"
+            	},
+            	{
+            		"inputs": [
+            			{
+            				"internalType": "address",
+            				"name": "",
+            				"type": "address"
+            			}
+            		],
+            		"name": "balances",
+            		"outputs": [
+            			{
+            				"internalType": "uint256",
+            				"name": "",
+            				"type": "uint256"
+            			}
+            		],
+            		"stateMutability": "view",
+            		"type": "function"
+            	},
+            	{
+            		"inputs": [],
+            		"name": "mine",
+            		"outputs": [],
+            		"stateMutability": "nonpayable",
+            		"type": "function"
+            	},
+            	{
+            		"inputs": [],
+            		"name": "miningReward",
+            		"outputs": [
+            			{
+            				"internalType": "uint256",
+            				"name": "",
+            				"type": "uint256"
+            			}
+            		],
+            		"stateMutability": "view",
+            		"type": "function"
+            	},
+            	{
+            		"inputs": [],
+            		"name": "owner",
+            		"outputs": [
+            			{
+            				"internalType": "address",
+            				"name": "",
+            				"type": "address"
+            			}
+            		],
+            		"stateMutability": "view",
+            		"type": "function"
+            	},
+            	{
+            		"inputs": [],
+            		"name": "tokenContract",
+            		"outputs": [
+            			{
+            				"internalType": "contract MyToken",
+            				"name": "",
+            				"type": "address"
+            			}
+            		],
+            		"stateMutability": "view",
+            		"type": "function"
+            	}
             ];
 
             // Instantiate the mining contract
