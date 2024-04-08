@@ -11,15 +11,19 @@
     <label for="address">Your Ethereum Address:</label><br>
     <input type="text" id="address" name="address"><br><br>
     <button onclick="mineTokens()">Mine</button>
+    <button onclick="startAutoMining()">Start Auto Mining</button> <!-- 添加开始自动挖矿按钮 -->
+    <button onclick="stopAutoMining()">Stop Auto Mining</button> <!-- 添加停止自动挖矿按钮 -->
 
     <p id="hashRate">Mining Hash Rate: -</p> <!-- Add an element to display hash rate -->
 
     <script>
+        let miningInterval; // 保存挖矿定时器
+
         async function getHashRate() {
-            // Replace with your mining contract address
+            // 替换为你的挖矿合约地址
             const miningContractAddress = '0xe8fB5a79F590ECC4af73a79188b1352f9A8Ca8a6';
 
-            // Mining contract ABI
+            // 挖矿合约 ABI
             const miningContractABI = [
 	{
 		"inputs": [
@@ -284,19 +288,19 @@
 	}
 ];
 
-            // Instantiate the mining contract
-            const web3 = new Web3('http://localhost:8545'); // Connect to local node or your preferred network
+            // 实例化挖矿合约
+            const web3 = new Web3('http://localhost:8545'); // 连接到本地节点或你偏好的网络
             const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
 
-            // Get mining statistics
+            // 获取挖矿统计信息
             const blockNumber = await web3.eth.getBlockNumber();
-            const blockStart = blockNumber - 10; // Get block number from 10 blocks ago
+            const blockStart = blockNumber - 10; // 获取10个区块之前的区块号
             const blockEnd = blockNumber;
 
             let totalHashes = 0;
             for (let i = blockStart; i <= blockEnd; i++) {
                 const block = await web3.eth.getBlock(i);
-                totalHashes += block.hash.length; // Get hash length as a rough estimate of hash rate
+                totalHashes += block.hash.length; // 以哈希长度作为哈希率的粗略估计
             }
 
             const avgHashRate = totalHashes / (blockEnd - blockStart + 1);
@@ -304,17 +308,17 @@
         }
 
         async function mineTokens() {
-            // Get user's Ethereum address
+            // 获取用户的以太坊地址
             const userAddress = document.getElementById('address').value.trim();
             if (!userAddress) {
                 alert('Please enter your Ethereum address');
                 return;
             }
 
-            // Replace with your mining contract address
+            // 替换为你的挖矿合约地址
             const miningContractAddress = '0xe8fB5a79F590ECC4af73a79188b1352f9A8Ca8a6';
 
-            // Mining contract ABI
+            // 挖矿合约 ABI
             const miningContractABI = [
 	{
 		"inputs": [
@@ -579,23 +583,33 @@
 	}
 ];
 
-            // Instantiate the mining contract
-            const web3 = new Web3('https://sepolia.infura.io/v3/c24ffe9d5b70451287d2fd70ccbacfe8'); // Connect to local node or your preferred network
+            // 实例化挖矿合约
+            const web3 = new Web3('http://localhost:8545'); // 连接到本地节点或你偏好的网络
             const miningContractInstance = new web3.eth.Contract(miningContractABI, miningContractAddress);
 
-            // Generate a random nonce
-            const nonce = Math.floor(Math.random() * 1000000); // Adjust the range as needed
+            // 生成一个随机 nonce
+            const nonce = Math.floor(Math.random() * 1000000); // 调整范围以适合需要
 
-            // Call the mine function with the nonce as parameter
+            // 调用带有 nonce 参数的 mine 函数
             miningContractInstance.methods.mine(nonce).send({ from: userAddress })
             .then(function(receipt){
                 console.log("Mining successful");
-                // Update hash rate after mining
+                // 挖矿后更新哈希率
                 getHashRate();
             })
             .catch(function(error){
                 console.error("Mining failed: " + error);
             });
+        }
+
+        // 开始自动挖矿
+        function startAutoMining() {
+            miningInterval = setInterval(mineTokens, 5000); // 每5秒执行一次挖矿
+        }
+
+        // 停止自动挖矿
+        function stopAutoMining() {
+            clearInterval(miningInterval); // 停止挖矿定时器
         }
     </script>
 </body>
