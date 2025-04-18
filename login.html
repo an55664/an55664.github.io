@@ -1,0 +1,103 @@
+<?php
+// 資料庫連接設定
+$servername = "localhost";
+$username = "your_username";
+$password = "your_password";
+$dbname = "your_database";
+
+// 建立資料庫連接
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// 檢查連接是否成功
+if ($conn->connect_error) {
+    die("資料庫連接失敗: " . $conn->connect_error);
+}
+
+// 驗證表單提交的資料
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = test_input($_POST["username"]);
+    $password = test_input($_POST["password"]);
+
+    // 檢查必填字段是否填寫
+    if (empty($username) || empty($password)) {
+        die("請填寫所有必填字段");
+    }
+
+    // 查詢使用者名稱對應的密碼
+    $query = "SELECT password FROM users WHERE username = '$username'";
+    $result = $conn->query($query);
+
+    if ($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
+        $hashedPassword = $row["password"];
+
+        // 驗證密碼是否正確
+        if (password_verify($password, $hashedPassword)) {
+            echo "登入成功";
+            // 在這裡處理登入成功後的相應操作，例如設置登入狀態、建立會話等
+        } else {
+            echo "密碼錯誤";
+        }
+    } else {
+        echo "使用者名稱不存在";
+    }
+}
+
+// 關閉資料庫連接
+$conn->close();
+
+// 清理和驗證輸入資料的函式
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+?>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>創鮮食鋪</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <style>
+    body {
+      background-image: url("pexels-alexey-demidov-10137476.jpg");
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>歡迎光臨創鮮食鋪</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="product.html">產品</a></li>
+        <li><a href="cart.html">購物車</a></li>
+        <li><a href="login.html">登入</a></li>
+        <li><a href="register.html">註冊</a></li>
+      </ul>
+    </nav>
+  </header>
+
+   <div class="login-container">
+    <h1>登入</h1>
+    <form>
+      <input type="text" placeholder="使用者名稱" name="username" required>
+      <input type="password" placeholder="密碼" name="password" required>
+      <button type="submit">登入</button>
+    </form>
+    <p>還沒有帳號？ <a href="register.html">註冊</a></p>
+  </div>
+
+  <footer>
+    <p>版權所有 &copy; 2023 創鮮食鋪</p>
+  </footer>
+
+</body>
+</html>
+

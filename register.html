@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>創鮮食鋪</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <style>
+    body {
+      background-image: url("pexels-alexey-demidov-10137476.jpg");
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>歡迎光臨創鮮食鋪</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="product.html">產品</a></li>
+        <li><a href="cart.html">購物車</a></li>
+        <li><a href="login.html">登入</a></li>
+        <li><a href="register.html">註冊</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="register-container">
+    <h1>註冊</h1>
+    <form>
+      <input type="text" placeholder="使用者名稱" name="username" required>
+      <input type="password" placeholder="密碼" name="password" required>
+      <input type="email" placeholder="電子郵件" name="email" required>
+      <button type="submit">註冊</button>
+    </form>
+    <p>已經有帳號了？ <a href="login.html">登入</a></p>
+  </div>
+
+
+
+  <footer>
+    <p>版權所有 &copy; 2023 創鮮食鋪</p>
+  </footer>
+</body>
+</html>
+
+
+<?php
+// 資料庫連接設定
+$servername = "localhost";
+$username = "your_username";
+$password = "your_password";
+$dbname = "your_database";
+
+// 建立資料庫連接
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// 檢查連接是否成功
+if ($conn->connect_error) {
+    die("資料庫連接失敗: " . $conn->connect_error);
+}
+
+// 驗證表單提交的資料
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = test_input($_POST["username"]);
+    $password = test_input($_POST["password"]);
+
+    // 檢查必填字段是否填寫
+    if (empty($username) || empty($password)) {
+        die("請填寫所有必填字段");
+    }
+
+    // 檢查使用者名稱是否已存在
+    $query = "SELECT * FROM users WHERE username = '$username'";
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        echo "使用者名稱已存在";
+    } else {
+        // 將密碼進行哈希處理
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // 插入新用戶到資料庫
+        $insertQuery = "INSERT INTO users (username, password) VALUES ('$username', '$hashedPassword')";
+        if ($conn->query($insertQuery) === TRUE) {
+            echo "註冊成功";
+            // 在這裡處理註冊成功後的相應操作
+        } else {
+            echo "註冊失敗: " . $conn->error;
+        }
+    }
+}
+
+// 關閉資料庫連接
+$conn->close();
+
+// 清理和驗證輸入資料的函式
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+?>
+
